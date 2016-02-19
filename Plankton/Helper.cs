@@ -3,21 +3,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 public static class Helper
 {
 	/// <summary>
-	/// Tries to figure out the mime type of the file.
+	/// Serialize class to JSON
 	/// </summary>
-	/// <param name="fileName">name of the file</param>
-	/// <returns>MIME type</returns>
-	public static string GetMimeType(string fileName)
+	/// <typeparam name="T"></typeparam>
+	/// <param name="model">class</param>
+	/// <returns>JSON</returns>
+	public static string ToJson<T>(T model) where T : class
 	{
-		string mimeType = "application/unknown";
-		string ext = System.IO.Path.GetExtension(fileName).ToLower();
-		Microsoft.Win32.RegistryKey regKey = Microsoft.Win32.Registry.ClassesRoot.OpenSubKey(ext);
-		if(regKey != null && regKey.GetValue("Content Type") != null)
-			mimeType = regKey.GetValue("Content Type").ToString();
-		return mimeType;
+		return JsonConvert.SerializeObject(model, new JsonSerializerSettings()
+		{
+			DateFormatHandling = DateFormatHandling.MicrosoftDateFormat,
+			StringEscapeHandling = StringEscapeHandling.EscapeHtml,
+		});
 	}
 }

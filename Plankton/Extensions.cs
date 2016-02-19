@@ -392,15 +392,6 @@ public static class Extensions
 		}
 	}
 
-	public static string ToJson<T>(this T model) where T : class
-	{
-		return JsonConvert.SerializeObject(model, new JsonSerializerSettings()
-		{
-			DateFormatHandling = DateFormatHandling.MicrosoftDateFormat,
-			StringEscapeHandling = StringEscapeHandling.EscapeHtml,
-		});
-	}
-
 	public static DateTime FixDatePickerTime(this DateTime dt)
 	{
 		return dt.ToLocalTime();
